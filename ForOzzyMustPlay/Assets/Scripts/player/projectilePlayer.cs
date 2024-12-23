@@ -8,6 +8,7 @@ public class projectilePlayer : MonoBehaviour
     public int damage = 1;
     public int pierce = 1;
     private EnemyHealth enemyHealth;
+    private OzzyHealth ozzyHealth;
     void Start()
     {
         
@@ -22,8 +23,17 @@ public class projectilePlayer : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            enemyHealth = collision.gameObject.GetComponent<EnemyHealth>();
-            enemyHealth.TakeDamage(damage);
+            if (collision.gameObject.GetComponent<OzzyHealth>() != null)
+            {
+                ozzyHealth = collision.gameObject.GetComponent<OzzyHealth>();
+                ozzyHealth.TakeDamage(damage);
+            }
+            else
+            {
+                enemyHealth = collision.gameObject.GetComponent<EnemyHealth>();
+                enemyHealth.TakeDamage(damage);
+            }
+            
             pierce--;
             if (pierce == 0)
             {

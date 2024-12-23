@@ -17,6 +17,7 @@ public class playerShoot : MonoBehaviour
     public float reloadTime;
     public int maxCharges = 3;
     public float chargeTime = 1;
+    public float dashTime = 0.3f;
 
     [Header("Assignables")]
     public Rigidbody2D rb;
@@ -78,7 +79,7 @@ public class playerShoot : MonoBehaviour
             rb.velocity = Vector2.zero;
             rb.gravityScale = 0;
             radius.SetActive(true);
-            Invoke(nameof(dashStart), 0.2f);
+            Invoke(nameof(dashStart), dashTime/2);
 
 
         }
@@ -112,7 +113,7 @@ public class playerShoot : MonoBehaviour
         DashProjectile.collided = false;
         DashProjectile.ready = true;
         spriteRenderer.enabled = false;
-        Invoke(nameof(dashEnd), 0.2f);
+        Invoke(nameof(dashEnd), dashTime/2);
 
 
     }
@@ -120,7 +121,7 @@ public class playerShoot : MonoBehaviour
     {
         spriteRenderer.enabled = true;
 
-        if ((DashProjectile.mousePos - transform.position).magnitude < DashProjectile.range)
+        if ((new Vector3(DashProjectile.mousePos.x, DashProjectile.mousePos.y, 0) - transform.position).magnitude < DashProjectile.range)
         {
             Debug.Log("Overrided dash");
             transform.position = new Vector3 (DashProjectile.mousePos.x, DashProjectile.mousePos.y, 0);
